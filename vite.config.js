@@ -10,6 +10,16 @@ export default defineConfig({
     // Small site — keep chunks simple; jszip is lazy-loaded on demand.
     chunkSizeWarningLimit: 900,
   },
+  server: {
+    proxy: {
+      '/api': 'http://127.0.0.1:8787',
+    },
+  },
+  preview: {
+    proxy: {
+      '/api': 'http://127.0.0.1:8787',
+    },
+  },
   ssr: {
     // vite-react-ssg prerenders these; nothing external needs bundling out.
     noExternal: ['lucide-react'],

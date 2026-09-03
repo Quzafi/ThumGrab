@@ -136,3 +136,23 @@ export async function fetchOEmbed(id, signal) {
     return null
   }
 }
+
+/**
+ * Fetch API-free metadata and related videos through the local backend.
+ * The endpoint is optional: thumbnail downloading still works if it is down.
+ */
+export async function fetchVideoInfo(id, signal) {
+  try {
+    const res = await fetch('/api/video-info', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ id }),
+      signal,
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data?.id === id ? data : null
+  } catch {
+    return null
+  }
+}

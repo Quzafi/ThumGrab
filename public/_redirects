@@ -1,3 +1,6 @@
+# Metadata backend function
+/api/video-info  /.netlify/functions/video-info  200
+
 # Netlify SPA fallback — serve prerendered files first, then hydrate unknown
 # routes through index.html so client-side routing (and the 404 page) works.
 /*    /index.html    200

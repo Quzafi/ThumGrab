@@ -15,11 +15,12 @@ import {
   thumbUrl,
   downloadFilename,
   watchUrl,
-  fetchOEmbed,
+  fetchVideoInfo,
 } from '../lib/youtube.js'
 import { downloadZip } from '../lib/download.js'
 import { Button, IconBubble } from './ui.jsx'
 import ResolutionCard from './ResolutionCard.jsx'
+import VideoInfo from './VideoInfo.jsx'
 
 const SAMPLES = [
   { label: 'Me at the zoo', url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw' },
@@ -30,7 +31,8 @@ export default function ThumbnailTool() {
   const [input, setInput] = useState('')
   const [videoId, setVideoId] = useState(null)
   const [error, setError] = useState('')
-  const [oembed, setOembed] = useState(null)
+  const [videoInfo, setVideoInfo] = useState(null)
+  const [infoLoading, setInfoLoading] = useState(false)
   const [avail, setAvail] = useState({})
   const [zipping, setZipping] = useState(false)
   const inputRef = useRef(null)
@@ -49,7 +51,8 @@ export default function ThumbnailTool() {
       return
     }
     setError('')
-    setOembed(null)
+    setVideoInfo(null)
+    setInfoLoading(true)
     setAvail({})
     setVideoId(id)
   }
@@ -81,7 +84,8 @@ export default function ThumbnailTool() {
     setInput('')
     setVideoId(null)
     setError('')
-    setOembed(null)
+    setVideoInfo(null)
+    setInfoLoading(false)
     setAvail({})
     inputRef.current?.focus()
   }
@@ -90,8 +94,12 @@ export default function ThumbnailTool() {
   useEffect(() => {
     if (!videoId) return
     const ctrl = new AbortController()
-    fetchOEmbed(videoId, ctrl.signal).then((d) => {
-      if (d) setOembed(d)
+    setInfoLoading(true)
+    fetchVideoInfo(videoId, ctrl.signal).then((data) => {
+      if (!ctrl.signal.aborted) {
+        setVideoInfo(data)
+        setInfoLoading(false)
+      }
     })
     return () => ctrl.abort()
   }, [videoId])
@@ -121,7 +129,7 @@ export default function ThumbnailTool() {
       {/* Live status for screen readers */}
       <p className="sr-only" role="status">
         {videoId
-          ? `Thumbnails ready for ${oembed?.title || 'the video'}. ${availableList.length} sizes available.`
+          ? `Thumbnails ready for ${videoInfo?.title || 'the video'}. ${availableList.length} sizes available.`
           : ''}
       </p>
 
@@ -202,10 +210,10 @@ export default function ThumbnailTool() {
               </IconBubble>
               <div className="min-w-0">
                 <h2 className="truncate font-display text-lg font-bold">
-                  {oembed?.title || 'Your thumbnails are ready'}
+                  {videoInfo?.title || 'Your thumbnails are ready'}
                 </h2>
                 <p className="mt-0.5 truncate text-sm text-muted-fg">
-                  {oembed?.author ? `${oembed.author} · ` : ''}
+                  {videoInfo?.author ? `${videoInfo.author} · ` : ''}
                   {availableList.length} size{availableList.length === 1 ? '' : 's'} available ·{' '}
                   <a
                     href={watchUrl(videoId)}
@@ -236,6 +244,18 @@ export default function ThumbnailTool() {
               </Button>
             </div>
           </div>
+
+          {infoLoading ? (
+            <p className="mt-5 rounded-2xl bg-muted px-4 py-3 text-sm text-muted-fg" role="status">
+              Loading video details and similar videos…
+            </p>
+          ) : videoInfo?.metadataAvailable ? (
+            <VideoInfo info={videoInfo} />
+          ) : (
+            <p className="mt-5 rounded-2xl bg-muted px-4 py-3 text-sm text-muted-fg">
+              Video details are unavailable right now, but your thumbnails are ready.
+            </p>
+          )}
 
           <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {RESOLUTIONS.map((r) => (
