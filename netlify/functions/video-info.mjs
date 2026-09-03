@@ -8,21 +8,18 @@ const responseHeaders = {
   'content-type': 'application/json; charset=utf-8',
 }
 
-function respond(statusCode, body) {
-  return { statusCode, headers: responseHeaders, body: JSON.stringify(body) }
+function respond(status, body) {
+  return new Response(JSON.stringify(body), { status, headers: responseHeaders })
 }
 
-export async function handler(event) {
-  if (event.httpMethod === 'OPTIONS') return respond(204, {})
-  if (!['GET', 'POST'].includes(event.httpMethod)) return respond(405, { error: 'Method not allowed' })
+export default async function handler(request) {
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: responseHeaders })
+  if (!['GET', 'POST'].includes(request.method)) return respond(405, { error: 'Method not allowed' })
 
   try {
-    const rawBody = event.isBase64Encoded
-      ? Buffer.from(event.body || '', 'base64').toString('utf8')
-      : event.body || '{}'
-    const body = event.httpMethod === 'POST' ? JSON.parse(rawBody) : {}
-    const params = new URLSearchParams(event.rawQuery || '')
-    const input = body.url || body.id || params.get('url') || params.get('id')
+    const url = new URL(request.url)
+    const body = request.method === 'POST' ? await request.json() : {}
+    const input = body.url || body.id || url.searchParams.get('url') || url.searchParams.get('id')
     return respond(200, await getVideoInfo(input))
   } catch (error) {
     const status = error?.code === 'INVALID_VIDEO_ID' ? 400 : 502
