@@ -1,0 +1,18 @@
+{
+  "name": "ThumbGrab — YouTube Thumbnail Downloader",
+  "short_name": "ThumbGrab",
+  "description": "Free YouTube thumbnail downloader. Paste any link and download the thumbnail in HD, SD and every resolution — no signup, no watermark.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f9f9f9",
+  "theme_color": "#ff0000",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}

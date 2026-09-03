@@ -1,0 +1,5 @@
+# robots.txt for ThumbGrab
+User-agent: *
+Allow: /
+
+Sitemap: https://thumbgrab.app/sitemap.xml

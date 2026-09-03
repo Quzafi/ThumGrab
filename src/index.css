@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/* Dark mode driven by a `.dark` class on <html> (see index.html + ThemeToggle) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ *
+ * Design tokens — YouTube-inspired black, white, and red palette
+ * ------------------------------------------------------------------ */
+:root {
+  --c-bg: #f9f9f9;
+  --c-card: #ffffff;
+  --c-muted: #f2f2f2;
+  --c-muted-fg: #606060;
+  --c-fg: #0f0f0f;
+  --c-border: #e5e5e5;
+
+  --c-primary: #ff0000;
+  --c-primary-fg: #ffffff;
+  --c-secondary: #3f3f3f;
+  --c-secondary-fg: #ffffff;
+  --c-accent: #0f0f0f;
+  --c-accent-fg: #ffffff;
+  --c-ring: #ff0000;
+  --c-danger: #cc0000;
+  --c-danger-fg: #ffffff;
+
+  /* neutral shadow ingredients keep the clay treatment on-brand */
+  --clay-hi: rgba(255, 255, 255, 0.92);
+  --clay-lo: rgba(15, 15, 15, 0.15);
+  --clay-inner-hi: rgba(255, 255, 255, 0.85);
+  --clay-inner-lo: rgba(15, 15, 15, 0.08);
+}
+
+.dark {
+  --c-bg: #0f0f0f;
+  --c-card: #212121;
+  --c-muted: #272727;
+  --c-muted-fg: #aaaaaa;
+  --c-fg: #f1f1f1;
+  --c-border: #3f3f3f;
+
+  --c-primary: #ff0000;
+  --c-primary-fg: #ffffff;
+  --c-secondary: #3f3f3f;
+  --c-secondary-fg: #ffffff;
+  --c-accent: #ffffff;
+  --c-accent-fg: #0f0f0f;
+  --c-ring: #ff0000;
+  --c-danger: #ff4e45;
+  --c-danger-fg: #0f0f0f;
+
+  --clay-hi: rgba(255, 255, 255, 0.06);
+  --clay-lo: rgba(0, 0, 0, 0.55);
+  --clay-inner-hi: rgba(255, 255, 255, 0.05);
+  --clay-inner-lo: rgba(0, 0, 0, 0.38);
+}
+
+/* Expose tokens to Tailwind utilities (bg-primary, text-fg, border-border, …) */
+@theme inline {
+  --font-display: "Varela Round", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --color-bg: var(--c-bg);
+  --color-card: var(--c-card);
+  --color-muted: var(--c-muted);
+  --color-muted-fg: var(--c-muted-fg);
+  --color-fg: var(--c-fg);
+  --color-border: var(--c-border);
+
+  --color-primary: var(--c-primary);
+  --color-primary-fg: var(--c-primary-fg);
+  --color-secondary: var(--c-secondary);
+  --color-secondary-fg: var(--c-secondary-fg);
+  --color-accent: var(--c-accent);
+  --color-accent-fg: var(--c-accent-fg);
+  --color-ring: var(--c-ring);
+  --color-danger: var(--c-danger);
+  --color-danger-fg: var(--c-danger-fg);
+
+  --radius-clay: 1.375rem;
+  --radius-clay-lg: 1.75rem;
+}
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    min-height: 100dvh;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.12;
+    color: var(--color-fg);
+  }
+  a { color: inherit; }
+  :focus-visible {
+    outline: 3px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-primary) 28%, transparent);
+    color: var(--color-fg);
+  }
+  /* nicer default image rendering */
+  img { max-width: 100%; height: auto; }
+}
+
+/* ------------------------------------------------------------------ *
+ * Clay components
+ * ------------------------------------------------------------------ */
+@layer components {
+  .clay {
+    background: var(--color-card);
+    border-radius: var(--radius-clay);
+    box-shadow:
+      9px 9px 24px var(--clay-lo),
+      -8px -8px 20px var(--clay-hi),
+      inset 1px 1px 2px var(--clay-inner-hi),
+      inset -2px -3px 7px var(--clay-inner-lo);
+  }
+  .clay-lg { border-radius: var(--radius-clay-lg); }
+
+  .clay-inset {
+    background: var(--color-muted);
+    border-radius: var(--radius-clay);
+    box-shadow:
+      inset 5px 5px 11px var(--clay-lo),
+      inset -5px -5px 11px var(--clay-hi);
+  }
+
+  .clay-raised {
+    box-shadow:
+      7px 7px 18px var(--clay-lo),
+      -6px -6px 15px var(--clay-hi);
+  }
+
+  /* Pill buttons */
+  .clay-btn {
+    border-radius: 999px;
+    box-shadow:
+      6px 6px 14px var(--clay-lo),
+      -5px -5px 11px var(--clay-hi);
+    transition:
+      transform 0.18s ease-out,
+      box-shadow 0.18s ease-out,
+      filter 0.18s ease-out,
+      background-color 0.18s ease-out;
+  }
+  .clay-btn:hover { filter: brightness(1.04); transform: translateY(-1px); }
+  .clay-btn:active {
+    transform: translateY(1px) scale(0.985);
+    box-shadow:
+      inset 4px 4px 9px var(--clay-lo),
+      inset -4px -4px 8px var(--clay-hi);
+    filter: brightness(0.99);
+  }
+
+  .clay-chip {
+    border-radius: 999px;
+    background: var(--color-muted);
+    box-shadow:
+      inset 2px 2px 5px var(--clay-lo),
+      inset -2px -2px 5px var(--clay-hi);
+  }
+
+  /* text helpers */
+  .link-underline {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-primary) 45%, transparent);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+    transition: text-decoration-color 0.15s ease-out;
+  }
+  .link-underline:hover { text-decoration-color: var(--color-primary); }
+}
+
+/* Utility: consistent page container */
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-page { padding-inline: 2rem; }
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Motion & animation (respecting reduced-motion)
+ * ------------------------------------------------------------------ */
+@keyframes tg-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes tg-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes tg-pop {
+  0% { opacity: 0; transform: scale(0.94); }
+  60% { opacity: 1; transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+@keyframes tg-spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-float { animation: tg-float 6s ease-in-out infinite; }
+.animate-fade-up { animation: tg-fade-up 0.5s ease-out both; }
+.animate-pop { animation: tg-pop 0.35s ease-out both; }
+.animate-spin-slow { animation: tg-spin 0.9s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-float { animation: none !important; }
+}

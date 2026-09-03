@@ -1,0 +1,9 @@
+# ads.txt — Authorized Digital Sellers
+#
+# Google AdSense requires this file once your site is approved.
+# After approval, replace the line below with your real publisher ID
+# (found in your AdSense account) and remove the leading "# ":
+#
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+#
+# Until then this file is intentionally empty of records.
