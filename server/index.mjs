@@ -1,5 +1,6 @@
 import { createServer } from 'node:http'
 import { getVideoInfo } from './video-info.mjs'
+import { translateText } from './translate.mjs'
 
 const HOST = process.env.HOST || '127.0.0.1'
 const PORT = Number(process.env.PORT || 8787)
@@ -45,6 +46,16 @@ const server = createServer(async (request, response) => {
   }
   if (url.pathname === '/health' && request.method === 'GET') {
     sendJson(response, 200, { ok: true })
+    return
+  }
+  if (url.pathname === '/api/translate' && request.method === 'POST') {
+    try {
+      const body = await readJson(request)
+      sendJson(response, 200, await translateText(body.text, body.target))
+    } catch (error) {
+      const status = error?.code?.startsWith('INVALID_') ? 400 : 502
+      sendJson(response, status, { error: error?.message || 'Could not load translated text' })
+    }
     return
   }
   if (url.pathname !== '/api/video-info' || !['GET', 'POST'].includes(request.method || '')) {

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Download, Copy, Check, ExternalLink, Loader2, ImageOff } from 'lucide-react'
+import { Download, Copy, Check, ExternalLink, Loader2, ImageOff, Pencil } from 'lucide-react'
 import { thumbUrl, downloadFilename } from '../lib/youtube.js'
 import { downloadImage, headSize, formatBytes } from '../lib/download.js'
 import { Button, Badge, cx } from './ui.jsx'
@@ -25,7 +25,7 @@ async function copyText(text) {
   }
 }
 
-export default function ResolutionCard({ id, res, isBest, onAvailability }) {
+export default function ResolutionCard({ id, res, isBest, onAvailability, onEdit }) {
   const [status, setStatus] = useState('loading') // loading | ready | unavailable
   const [size, setSize] = useState(null)
   const [downloading, setDownloading] = useState(false)
@@ -163,6 +163,14 @@ export default function ResolutionCard({ id, res, isBest, onAvailability }) {
           >
             {copied ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
             {copied ? 'Copied' : 'URL'}
+          </Button>
+          <Button
+            variant="soft"
+            size="sm"
+            onClick={() => onEdit?.({ url, filename, label: res.label })}
+            aria-label={`Edit ${res.label} thumbnail`}
+          >
+            <Pencil size={16} aria-hidden="true" /> Edit
           </Button>
           <Button
             variant="ghost"

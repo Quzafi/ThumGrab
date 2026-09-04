@@ -156,3 +156,16 @@ export async function fetchVideoInfo(id, signal) {
     return null
   }
 }
+
+/** Translate short creator metadata through the same optional backend. */
+export async function translateText(text, target, signal) {
+  const res = await fetch('/api/translate', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ text, target }),
+    signal,
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) throw new Error(data?.error || 'Translation failed')
+  return data
+}

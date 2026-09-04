@@ -20,7 +20,8 @@ import {
 import { downloadZip } from '../lib/download.js'
 import { Button, IconBubble } from './ui.jsx'
 import ResolutionCard from './ResolutionCard.jsx'
-import VideoInfo from './VideoInfo.jsx'
+import VideoInfo from './VideoInfoEnhanced.jsx'
+import ThumbnailEditor from './ThumbnailEditor.jsx'
 
 const SAMPLES = [
   { label: 'Me at the zoo', url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw' },
@@ -34,6 +35,7 @@ export default function ThumbnailTool() {
   const [videoInfo, setVideoInfo] = useState(null)
   const [infoLoading, setInfoLoading] = useState(false)
   const [avail, setAvail] = useState({})
+  const [editor, setEditor] = useState(null)
   const [zipping, setZipping] = useState(false)
   const inputRef = useRef(null)
 
@@ -265,6 +267,7 @@ export default function ThumbnailTool() {
                 res={r}
                 isBest={best?.key === r.key}
                 onAvailability={onAvailability}
+                onEdit={(value) => setEditor(value)}
               />
             ))}
           </div>
@@ -277,6 +280,13 @@ export default function ThumbnailTool() {
             .
           </p>
         </div>
+      ) : null}
+      {editor ? (
+        <ThumbnailEditor
+          imageUrl={editor.url}
+          filename={editor.filename}
+          onClose={() => setEditor(null)}
+        />
       ) : null}
     </div>
   )
