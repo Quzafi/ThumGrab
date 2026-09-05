@@ -4,6 +4,10 @@ import GuidesIndex from './pages/guides/GuidesIndex.jsx'
 import HowToDownload from './pages/guides/HowToDownload.jsx'
 import ThumbnailSizes from './pages/guides/ThumbnailSizes.jsx'
 import MakeGoodThumbnails from './pages/guides/MakeGoodThumbnails.jsx'
+import ChannelDna from './pages/ChannelDna.jsx'
+import AiTitlePage from './pages/AiTitlePage.jsx'
+import AbTestPage from './pages/AbTestPage.jsx'
+import BatchPage from './pages/BatchPage.jsx'
 import Faq from './pages/Faq.jsx'
 import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
@@ -18,6 +22,10 @@ export const routes = [
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
+      { path: 'dna', element: <ChannelDna /> },
+      { path: 'title-generator', element: <AiTitlePage /> },
+      { path: 'ab-test', element: <AbTestPage /> },
+      { path: 'batch', element: <BatchPage /> },
       { path: 'guides', element: <GuidesIndex /> },
       {
         path: 'guides/how-to-download-youtube-thumbnails',

@@ -2,15 +2,11 @@
 export const SITE = {
   name: 'ThumbGrab',
   // Human tagline / SEO headline (safe descriptive use of the YouTube name)
-  tagline: 'YouTube Thumbnail Downloader',
-  // Production URL — used for canonical links, Open Graph and the sitemap.
-  // ▶ Replace with your real domain after you buy it.
+  tagline: 'YouTube Thumbnail Downloader & AI Content DNA Extractor',
   url: 'https://thumbgrab.app',
-  // Support / contact email — used on Contact, About, and legal pages.
-  // ▶ Replace with your real inbox.
   email: 'hello@thumbgrab.app',
   description:
-    'Free YouTube thumbnail downloader. Paste any YouTube link and download the thumbnail in HD, SD and every resolution instantly — no signup, no watermark.',
+    'Free YouTube thumbnail downloader & 100% client-side AI CTR auditor. Download Max HD thumbnails, extract video copywriting DNA blueprints, analyze contrast scores, and add custom badges.',
   // Twitter/X handle (optional, without @). Leave '' to omit.
   twitter: '',
   locale: 'en_US',
@@ -33,14 +29,21 @@ export const ADSENSE = {
 // Nav shown in the header.
 export const NAV = [
   { to: '/', label: 'Downloader' },
+  { to: '/dna', label: '🧬 Channel DNA' },
+  { to: '/title-generator', label: '✨ AI Titles' },
+  { to: '/ab-test', label: '⚔️ A/B Test' },
+  { to: '/batch', label: '📦 Batch' },
   { to: '/guides', label: 'Guides' },
   { to: '/faq', label: 'FAQ' },
-  { to: '/about', label: 'About' },
 ]
 
 // Every route, for the footer + sitemap generator.
 export const ROUTES = [
   '/',
+  '/dna',
+  '/title-generator',
+  '/ab-test',
+  '/batch',
   '/guides',
   '/guides/how-to-download-youtube-thumbnails',
   '/guides/youtube-thumbnail-sizes',

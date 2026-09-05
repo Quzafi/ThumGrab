@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   ClipboardPaste,
   Search,
@@ -8,6 +9,7 @@ import {
   AlertCircle,
   Loader2,
   Image as ImageIcon,
+  Dna,
 } from 'lucide-react'
 import {
   parseVideoId,
@@ -18,17 +20,21 @@ import {
   fetchVideoInfo,
 } from '../lib/youtube.js'
 import { downloadZip } from '../lib/download.js'
+import { saveHistoryItem, getHistory } from '../lib/history.js'
 import { Button, IconBubble } from './ui.jsx'
 import ResolutionCard from './ResolutionCard.jsx'
 import VideoInfo from './VideoInfoEnhanced.jsx'
 import ThumbnailEditor from './ThumbnailEditor.jsx'
+import ClientSideAiAnalyzer from './ClientSideAiAnalyzer.jsx'
 
 const SAMPLES = [
+
   { label: 'Me at the zoo', url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw' },
   { label: 'Big Buck Bunny', url: 'https://youtu.be/aqz-KE-bpKQ' },
 ]
 
 export default function ThumbnailTool() {
+  const navigate = useNavigate()
   const [input, setInput] = useState('')
   const [videoId, setVideoId] = useState(null)
   const [error, setError] = useState('')
@@ -101,6 +107,7 @@ export default function ThumbnailTool() {
       if (!ctrl.signal.aborted) {
         setVideoInfo(data)
         setInfoLoading(false)
+        saveHistoryItem({ id: videoId, title: data?.title, author: data?.author })
       }
     })
     return () => ctrl.abort()
@@ -230,6 +237,12 @@ export default function ThumbnailTool() {
             </div>
             <div className="flex shrink-0 flex-wrap gap-2">
               <Button
+                variant="primary"
+                onClick={() => navigate(`/dna?id=${videoId}`)}
+              >
+                <Dna size={18} aria-hidden="true" /> Extract Channel DNA
+              </Button>
+              <Button
                 variant="accent"
                 onClick={handleZip}
                 disabled={zipping || !availableList.length}
@@ -272,7 +285,16 @@ export default function ThumbnailTool() {
             ))}
           </div>
 
+          {/* 100% Client-Side AI CTR & Quality Audit */}
+          {best ? (
+            <ClientSideAiAnalyzer
+              imageUrl={thumbUrl(videoId, best.key)}
+              title={videoInfo?.title || ''}
+            />
+          ) : null}
+
           <p className="mt-6 text-center text-sm text-muted-fg">
+
             Please make sure you have the right to use a thumbnail before republishing it. See our{' '}
             <a href="/disclaimer" className="link-underline text-fg">
               usage disclaimer

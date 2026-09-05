@@ -60,16 +60,7 @@ export const RESOLUTIONS = [
     badge: '1280 × 720',
     w: 1280,
     h: 720,
-    note: 'Best quality — not available on every video',
-    guaranteed: false,
-  },
-  {
-    key: 'sddefault',
-    label: 'SD',
-    badge: '640 × 480',
-    w: 640,
-    h: 480,
-    note: 'Standard definition',
+    note: 'Best quality — full resolution',
     guaranteed: false,
   },
   {
@@ -79,24 +70,6 @@ export const RESOLUTIONS = [
     w: 480,
     h: 360,
     note: 'High quality — always available',
-    guaranteed: true,
-  },
-  {
-    key: 'mqdefault',
-    label: 'MQ',
-    badge: '320 × 180',
-    w: 320,
-    h: 180,
-    note: 'Medium quality',
-    guaranteed: true,
-  },
-  {
-    key: 'default',
-    label: 'Tiny',
-    badge: '120 × 90',
-    w: 120,
-    h: 90,
-    note: 'Smallest size',
     guaranteed: true,
   },
 ]
@@ -138,8 +111,8 @@ export async function fetchOEmbed(id, signal) {
 }
 
 /**
- * Fetch API-free metadata and related videos through the local backend.
- * The endpoint is optional: thumbnail downloading still works if it is down.
+ * Fetch API-free metadata and related videos through the local backend,
+ * with pure client-side fallback to YouTube oEmbed when no backend is running.
  */
 export async function fetchVideoInfo(id, signal) {
   try {
@@ -149,23 +122,67 @@ export async function fetchVideoInfo(id, signal) {
       body: JSON.stringify({ id }),
       signal,
     })
-    if (!res.ok) return null
-    const data = await res.json()
-    return data?.id === id ? data : null
+    if (res.ok) {
+      const data = await res.json()
+      if (data?.id === id) return data
+    }
   } catch {
-    return null
+    // Backend API unavailable — proceed to client-side oEmbed fallback
+  }
+
+  // Pure client-side fallback via YouTube CORS-enabled oEmbed
+  const oembed = await fetchOEmbed(id, signal)
+  if (!oembed) return null
+
+  // Generate smart keywords/tags client-side from the title
+  const words = (oembed.title || '')
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '')
+    .split(/\s+/)
+    .filter((w) => w.length > 3)
+  const tags = Array.from(new Set(words))
+
+  return {
+    id,
+    title: oembed.title,
+    author: oembed.author,
+    authorUrl: oembed.authorUrl,
+    description: '',
+    tags,
+    similar: [],
+    metadataAvailable: true,
+    isClientFallback: true,
   }
 }
 
-/** Translate short creator metadata through the same optional backend. */
+/** 
+ * Translate text with backend endpoint primary, and free client-side MyMemory API fallback.
+ */
 export async function translateText(text, target, signal) {
-  const res = await fetch('/api/translate', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ text, target }),
-    signal,
-  })
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(data?.error || 'Translation failed')
-  return data
+  try {
+    const res = await fetch('/api/translate', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ text, target }),
+      signal,
+    })
+    if (res.ok) {
+      const data = await res.json()
+      if (data?.translatedText) return data
+    }
+  } catch {
+    // Backend unavailable — fallback to client-side MyMemory free translation API
+  }
+
+  // Pure client-side free translation (MyMemory API)
+  const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
+    text,
+  )}&langpair=autodetect|${target}`
+  const response = await fetch(myMemoryUrl, { signal })
+  if (!response.ok) throw new Error('Translation failed')
+  const json = await response.json()
+  const translatedText = json?.responseData?.translatedText
+  if (!translatedText) throw new Error('Could not translate text')
+  return { translatedText }
 }
+

@@ -49,34 +49,34 @@ const STEPS = [
 
 const FEATURES = [
   {
+    icon: Sparkles,
+    title: '100% Client-Side AI Audit',
+    body: 'Evaluates thumbnail resolution, pixel contrast, and color palette directly in your browser canvas with $0 server cost.',
+  },
+  {
     icon: Zap,
-    title: 'Instant & in-browser',
-    body: 'Thumbnails are fetched directly in your browser, so downloads start the moment you paste — no waiting in a queue, no servers in the middle.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Private by design',
-    body: 'We never store the links you paste or the images you download. There are no accounts and nothing to sign up for.',
-  },
-  {
-    icon: Layers,
-    title: 'Full-quality originals',
-    body: 'You get the exact JPG YouTube serves — no re-compression, no shrinking, no watermark stamped over the top.',
-  },
-  {
-    icon: Ruler,
-    title: 'Every size, auto-detected',
-    body: 'Not every video has a Max HD thumbnail. We check what actually exists and only show the sizes you can really download.',
+    title: 'Video Content DNA Extractor',
+    body: 'Extracts copywriting emotional hooks, title formats, high-CTR power words, and SEO tag fingerprints into a 1-click blueprint.',
   },
   {
     icon: Palette,
-    title: 'Made for creators',
-    body: 'Reference competitors, build a swipe file, or study what makes a thumbnail clickable — perfect for YouTubers and designers.',
+    title: 'Stamp & Badge Editor',
+    body: 'Add 1-click viral stamps ("4K ULTRA HD", "LIVE", "NEW 2026") and custom text overlays before downloading.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Private & Serverless',
+    body: 'We never store your pasted links or images. Everything runs locally inside your browser with 100% privacy.',
+  },
+  {
+    icon: Layers,
+    title: 'Max HD Full Quality',
+    body: 'Get the exact 1280×720 Max HD and HQ JPG YouTube serves — uncompressed, crisp, and ready for publication.',
   },
   {
     icon: Download,
-    title: 'One-click ZIP',
-    body: 'Need them all? Download every available resolution together in a single, neatly-named ZIP archive.',
+    title: 'One-click ZIP Export',
+    body: 'Download all available resolutions together in a single neatly-named ZIP archive with one click.',
   },
 ]
 
@@ -111,7 +111,7 @@ export default function Home() {
   return (
     <>
       <Seo
-        title="YouTube Thumbnail Downloader (HD & Full Quality, Free)"
+        title="YouTube Thumbnail Downloader & AI Content DNA Extractor"
         description={SITE.description}
         path="/"
       />
@@ -119,7 +119,7 @@ export default function Home() {
         data={{
           '@context': 'https://schema.org',
           '@type': 'WebApplication',
-          name: `${SITE.name} — YouTube Thumbnail Downloader`,
+          name: `${SITE.name} — YouTube Thumbnail Downloader & AI DNA Extractor`,
           url: SITE.url,
           applicationCategory: 'MultimediaApplication',
           operatingSystem: 'Any (web browser)',
@@ -132,11 +132,11 @@ export default function Home() {
       <PageHero
         eyebrow={
           <>
-            <PlaySquare size={16} aria-hidden="true" /> YouTube Thumbnail Downloader
+            <Sparkles size={16} className="text-accent" aria-hidden="true" /> 100% Client-Side AI Auditor & Content DNA Extractor
           </>
         }
-        title="Download any YouTube thumbnail in full quality"
-        subtitle="Paste a YouTube link and instantly grab its thumbnail in HD, SD and every other size — free, no signup, and no watermark. Built for YouTubers and designers."
+        title="Download YouTube Thumbnails & Extract Video Content DNA"
+        subtitle="Paste any YouTube link to download full Max HD thumbnails, run 100% client-side AI CTR audits, extract copywriting DNA blueprints, and stamp custom viral badges — free & private in your browser."
         center
       >
         <div className="mx-auto mt-10 max-w-3xl text-left">

@@ -82,6 +82,10 @@ export default function ThumbnailEditor({ imageUrl, filename, onClose }) {
     }
   }, [imageUrl])
 
+  const [badgeText, setBadgeText] = useState('')
+  const [badgeColor, setBadgeColor] = useState('#e63946')
+  const [badgePos, setBadgePos] = useState('top-right')
+
   useEffect(() => {
     const image = imageRef.current
     const canvas = canvasRef.current
@@ -98,6 +102,44 @@ export default function ThumbnailEditor({ imageUrl, filename, onClose }) {
     if (overlayOpacity > 0) {
       context.fillStyle = hexToRgba(overlayColor, overlayOpacity / 100)
       context.fillRect(0, 0, canvas.width, canvas.height)
+    }
+
+    // Render Badge Overlay if set
+    if (badgeText.trim()) {
+      const scale = canvas.width / 1280
+      const bSize = Math.max(16, Math.round(28 * scale))
+      context.font = `900 ${bSize}px Arial, sans-serif`
+      const textMetrics = context.measureText(badgeText.toUpperCase())
+      const padX = Math.round(18 * scale)
+      const padY = Math.round(10 * scale)
+      const bWidth = textMetrics.width + padX * 2
+      const bHeight = bSize + padY * 2
+      const margin = Math.round(24 * scale)
+
+      let bx = margin
+      let by = margin
+      if (badgePos === 'top-right') bx = canvas.width - bWidth - margin
+      else if (badgePos === 'bottom-left') by = canvas.height - bHeight - margin
+      else if (badgePos === 'bottom-right') {
+        bx = canvas.width - bWidth - margin
+        by = canvas.height - bHeight - margin
+      }
+
+      // Draw Badge Background Pill / Rounded Box
+      context.fillStyle = badgeColor
+      context.shadowColor = 'rgba(0,0,0,0.6)'
+      context.shadowBlur = 12 * scale
+      context.beginPath()
+      const radius = 8 * scale
+      context.roundRect ? context.roundRect(bx, by, bWidth, bHeight, radius) : context.fillRect(bx, by, bWidth, bHeight)
+      context.fill()
+      context.shadowBlur = 0
+
+      // Draw Badge Text
+      context.fillStyle = '#ffffff'
+      context.textAlign = 'center'
+      context.textBaseline = 'middle'
+      context.fillText(badgeText.toUpperCase(), bx + bWidth / 2, by + bHeight / 2)
     }
 
     if (text.trim()) {
@@ -121,7 +163,7 @@ export default function ThumbnailEditor({ imageUrl, filename, onClose }) {
         context.fillText(line, x, y)
       })
     }
-  }, [brightness, contrast, fontSize, loaded, overlayColor, overlayOpacity, position, text, textColor])
+  }, [brightness, contrast, fontSize, loaded, overlayColor, overlayOpacity, position, text, textColor, badgeText, badgeColor, badgePos])
 
   function reset() {
     setText('')
@@ -132,6 +174,9 @@ export default function ThumbnailEditor({ imageUrl, filename, onClose }) {
     setPosition('bottom')
     setBrightness(100)
     setContrast(100)
+    setBadgeText('')
+    setBadgeColor('#e63946')
+    setBadgePos('top-right')
     setSaveError('')
   }
 
@@ -156,6 +201,8 @@ export default function ThumbnailEditor({ imageUrl, filename, onClose }) {
     }
   }
 
+  const BADGE_PRESETS = ['4K ULTRA HD', 'LIVE', 'NEW 2026', 'MUST WATCH', 'EXPOSED', 'CHAPTER 1']
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 p-4 sm:p-8" role="dialog" aria-modal="true" aria-labelledby="editor-title">
       <div className="mx-auto max-w-6xl rounded-[1.75rem] bg-card p-5 shadow-2xl sm:p-7">
@@ -163,7 +210,7 @@ export default function ThumbnailEditor({ imageUrl, filename, onClose }) {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-primary">Thumbnail editor</p>
             <h2 id="editor-title" className="mt-1 text-2xl font-bold">Edit before downloading</h2>
-            <p className="mt-1 text-sm text-muted-fg">Add text and adjust the look. Your original thumbnail stays unchanged.</p>
+            <p className="mt-1 text-sm text-muted-fg">Add text, badges, and adjust the look. 100% Client-Side editing.</p>
           </div>
           <Button variant="ghost" size="sm" onClick={onClose} aria-label="Close thumbnail editor">
             <X size={18} aria-hidden="true" /> Close
@@ -177,7 +224,62 @@ export default function ThumbnailEditor({ imageUrl, filename, onClose }) {
             <canvas ref={canvasRef} className={loaded ? 'max-h-[60vh] w-auto max-w-full rounded-xl object-contain' : 'hidden'} />
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+            {/* Badge Overlay Selector */}
+            <div className="rounded-2xl bg-muted/60 p-3">
+              <label className="block text-sm font-bold text-fg mb-2">
+                🏆 Badge Stamp Overlay
+              </label>
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {BADGE_PRESETS.map((preset) => (
+                  <button
+                    key={preset}
+                    type="button"
+                    onClick={() => setBadgeText(badgeText === preset ? '' : preset)}
+                    className={`rounded-lg px-2.5 py-1 text-xs font-bold transition-all ${
+                      badgeText === preset
+                        ? 'bg-primary text-white shadow-xs'
+                        : 'bg-card text-muted-fg hover:text-fg border border-border'
+                    }`}
+                  >
+                    {preset}
+                  </button>
+                ))}
+              </div>
+              <input
+                value={badgeText}
+                onChange={(e) => setBadgeText(e.target.value)}
+                placeholder="Or type custom badge text..."
+                className="clay-inset w-full px-3 py-2 text-xs font-bold text-fg outline-none"
+              />
+              {badgeText ? (
+                <div className="mt-2 grid grid-cols-2 gap-2">
+                  <label className="text-xs font-bold text-fg">
+                    Badge Color
+                    <input
+                      type="color"
+                      value={badgeColor}
+                      onChange={(e) => setBadgeColor(e.target.value)}
+                      className="mt-1 h-8 w-full cursor-pointer rounded-lg bg-transparent"
+                    />
+                  </label>
+                  <label className="text-xs font-bold text-fg">
+                    Position
+                    <select
+                      value={badgePos}
+                      onChange={(e) => setBadgePos(e.target.value)}
+                      className="clay-inset mt-1 w-full px-2 py-1.5 text-xs font-bold outline-none"
+                    >
+                      <option value="top-right">Top Right</option>
+                      <option value="top-left">Top Left</option>
+                      <option value="bottom-right">Bottom Right</option>
+                      <option value="bottom-left">Bottom Left</option>
+                    </select>
+                  </label>
+                </div>
+              ) : null}
+            </div>
+
             <label className="block text-sm font-bold text-fg">
               <span className="mb-2 flex items-center gap-2"><Type size={16} className="text-primary" /> Text overlay</span>
               <input value={text} onChange={(event) => setText(event.target.value)} placeholder="Add a title to the thumbnail" className="clay-inset w-full px-4 py-3 text-fg outline-none" />
@@ -209,3 +311,4 @@ export default function ThumbnailEditor({ imageUrl, filename, onClose }) {
     </div>
   )
 }
+
