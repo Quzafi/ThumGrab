@@ -139,7 +139,7 @@ export default function Home() {
         subtitle="Paste any YouTube link to download full Max HD thumbnails, run 100% client-side AI CTR audits, extract copywriting DNA blueprints, and stamp custom viral badges — free & private in your browser."
         center
       >
-        <div className="mx-auto mt-10 max-w-3xl text-left">
+        <div className="mx-auto mt-10 max-w-6xl text-left">
           <ThumbnailTool />
         </div>
 

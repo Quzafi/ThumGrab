@@ -213,7 +213,7 @@ export default function ClientSideAiAnalyzer({ imageUrl, title }) {
   if (!analysis) return null
 
   return (
-    <div className="clay mt-6 overflow-hidden p-5 sm:p-7">
+    <div className="clay mt-8 overflow-hidden p-6 sm:p-8">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-4">
         <div className="flex items-center gap-3">

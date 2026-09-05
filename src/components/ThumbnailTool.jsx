@@ -134,7 +134,7 @@ export default function ThumbnailTool() {
   }
 
   return (
-    <div className="clay-lg p-5 sm:p-7">
+    <div className="clay-lg p-6 sm:p-8 md:p-10">
       {/* Live status for screen readers */}
       <p className="sr-only" role="status">
         {videoId
@@ -272,7 +272,7 @@ export default function ThumbnailTool() {
             </p>
           )}
 
-          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-6 md:grid-cols-2 md:gap-8">
             {RESOLUTIONS.map((r) => (
               <ResolutionCard
                 key={r.key}

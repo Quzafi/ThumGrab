@@ -104,7 +104,7 @@ export default function VideoInfoEnhanced({ info }) {
   const currentTab = TABS.some((t) => t.id === activeTab) ? activeTab : TABS[0]?.id || 'description'
 
   return (
-    <div className="clay mt-6 overflow-hidden p-5 sm:p-7">
+    <div className="clay mt-8 overflow-hidden p-6 sm:p-8">
       {/* Header Info */}
       <div className="flex flex-col gap-4 border-b border-border/60 pb-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3.5">
