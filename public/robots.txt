@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thumbgrab.app/sitemap.xml
+Sitemap: https://thumbgrabe.netlify.app/sitemap.xml
