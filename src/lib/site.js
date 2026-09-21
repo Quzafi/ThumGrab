@@ -3,8 +3,8 @@ export const SITE = {
   name: 'ThumbGrab',
   // Human tagline / SEO headline (safe descriptive use of the YouTube name)
   tagline: 'YouTube Thumbnail Downloader & AI Content DNA Extractor',
-  url: 'https://thumbgrab.app',
-  email: 'hello@thumbgrab.app',
+  url: 'https://thumbgrabe.netlify.app',
+  email: 'brotechsolutions2@gmail.com',
   description:
     'Free YouTube thumbnail downloader & 100% client-side AI CTR auditor. Download Max HD thumbnails, extract video copywriting DNA blueprints, analyze contrast scores, and add custom badges.',
   // Twitter/X handle (optional, without @). Leave '' to omit.
