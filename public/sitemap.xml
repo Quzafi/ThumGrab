@@ -1,91 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://thumbgrab.app/</loc>
+    <loc>https://thumbgrabe.netlify.app/</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/dna</loc>
+    <loc>https://thumbgrabe.netlify.app/dna</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/title-generator</loc>
+    <loc>https://thumbgrabe.netlify.app/title-generator</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/ab-test</loc>
+    <loc>https://thumbgrabe.netlify.app/ab-test</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/batch</loc>
+    <loc>https://thumbgrabe.netlify.app/batch</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/guides</loc>
+    <loc>https://thumbgrabe.netlify.app/guides</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/guides/how-to-download-youtube-thumbnails</loc>
+    <loc>https://thumbgrabe.netlify.app/guides/how-to-download-youtube-thumbnails</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/guides/youtube-thumbnail-sizes</loc>
+    <loc>https://thumbgrabe.netlify.app/guides/youtube-thumbnail-sizes</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/guides/how-to-make-good-thumbnails</loc>
+    <loc>https://thumbgrabe.netlify.app/guides/how-to-make-good-thumbnails</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/faq</loc>
+    <loc>https://thumbgrabe.netlify.app/faq</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/about</loc>
+    <loc>https://thumbgrabe.netlify.app/about</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/contact</loc>
+    <loc>https://thumbgrabe.netlify.app/contact</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/privacy-policy</loc>
+    <loc>https://thumbgrabe.netlify.app/privacy-policy</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/terms</loc>
+    <loc>https://thumbgrabe.netlify.app/terms</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://thumbgrab.app/disclaimer</loc>
+    <loc>https://thumbgrabe.netlify.app/disclaimer</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
